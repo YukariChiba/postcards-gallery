@@ -1,7 +1,14 @@
 <template>
     <v-card @click="$emit('view', imgid)">
         <v-img
-            :src="getImageURL(colid, imgid, side)"
+            :src="
+                getImageURL(
+                    colid,
+                    imgid,
+                    prop.side,
+                    prop.selected ? 'png' : 'jpg',
+                )
+            "
             @load="$emit('load')"
             @error="$emit('error')"
         >
