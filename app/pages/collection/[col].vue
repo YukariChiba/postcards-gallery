@@ -11,7 +11,7 @@
         </div>
         <v-row>
             <v-col
-                v-for="img in loaded"
+                v-for="img in Array.from(loaded)"
                 :key="img"
                 cols="12"
                 :md="currentview == img ? 12 : 6"
@@ -24,8 +24,8 @@
                     :colid="colid"
                     :selected="currentview == img"
                     :side="currentview == img ? side : 'front'"
-                    @error="error"
-                    @load="load"
+                    @error="error(img)"
+                    @load="load(img)"
                     @view="view"
                 />
             </v-col>
@@ -47,13 +47,19 @@ const router = useRouter();
 
 const colid = params.col as string;
 
-const loaded = ref([1]);
+const concurrent = 6;
 
-const load = () => {
-    loaded.value.push((loaded.value.at(-1) || 1) + 1);
+const loaded = ref(
+    new Set<number>(Array.from(new Array(concurrent), (x, i) => i + 1)),
+);
+
+const load = (imgid: number) => {
+    loaded.value.add(imgid + concurrent);
 };
 
-const error = () => {};
+const error = (imgid: number) => {
+    loaded.value.delete(imgid);
+};
 
 const notfound = () => {
     router.push("/404");

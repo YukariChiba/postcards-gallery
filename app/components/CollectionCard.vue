@@ -2,7 +2,7 @@
     <v-hover>
         <template #default="{ isHovering, props }">
             <v-card
-                :to="`/collection/${item.id}`"
+                :to="`/collection/${item}`"
                 v-bind="props"
                 rounded="xl"
                 class="my-2"
@@ -14,7 +14,7 @@
                             ? 'rgba(100,115,201,.33)'
                             : 'rgba(25,32,72,.7)'
                     "
-                    :src="getImageURL(item.id, 1, 'front')"
+                    :src="getImageURL(item, 1, 'front')"
                     :aspect-ratio="isHovering ? 6 : 10"
                     cover
                     class="align-center justify-start"
@@ -37,7 +37,7 @@
                     </v-overlay>
                     <v-card-title class="mt-2">
                         <v-img
-                            :src="getTitleURL(item.id)"
+                            :src="getTitleURL(item)"
                             height="80px"
                             style="filter: brightness(0) invert(1)"
                             :class="isHovering ? null : 'opacity-50'"
@@ -50,13 +50,8 @@
 </template>
 
 <script setup lang="ts">
-interface CollectionInfo {
-    title: string;
-    id: string;
-}
-
 const prop = defineProps<{
-    item: CollectionInfo;
+    item: string;
     colid: number;
 }>();
 
