@@ -24,12 +24,22 @@
                     :colid="colid"
                     :selected="currentview == img"
                     :side="currentview == img ? side : 'front'"
+                    :rotate="currentview == img ? rotate : false"
                     @error="error(img)"
                     @load="load(img)"
                     @view="view"
                 />
             </v-col>
         </v-row>
+        <v-fab
+            v-show="currentview != 0"
+            icon="mdi-rotate-right"
+            position="sticky"
+            app
+            appear
+            location="bottom left"
+            @click="rotate = !rotate"
+        />
         <v-fab
             v-show="currentview != 0"
             :icon="side == 'front' ? 'mdi-flip-to-back' : 'mdi-flip-to-front'"
@@ -66,6 +76,7 @@ const notfound = () => {
 };
 
 const currentview = ref(0);
+const rotate = ref(false);
 const side = ref("front");
 
 const flipside = () => {
@@ -77,6 +88,7 @@ const view = (i: number) => {
     if (currentview.value == i) currentview.value = 0;
     else currentview.value = i;
     side.value = "front";
+    rotate.value = false;
 };
 
 useSeoMeta({

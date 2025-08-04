@@ -1,5 +1,5 @@
 <template>
-    <v-card @click="$emit('view', imgid)">
+    <v-card>
         <v-img
             :src="
                 getImageURL(
@@ -9,8 +9,10 @@
                     prop.selected ? 'png' : 'jpg',
                 )
             "
+            :class="prop.rotate ? 'rotate90' : ''"
             @load="$emit('load')"
             @error="$emit('error')"
+            @click="$emit('view', imgid)"
         >
             <template #placeholder>
                 <div class="d-flex align-center justify-center fill-height">
@@ -27,9 +29,20 @@ const prop = defineProps<{
     imgid: number;
     selected: boolean;
     side: string;
+    rotate: boolean;
 }>();
 
 defineEmits(["load", "error", "view"]);
 const imgid = prop.imgid;
 const colid = prop.colid;
 </script>
+
+<style scoped>
+.rotate90 {
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+</style>
