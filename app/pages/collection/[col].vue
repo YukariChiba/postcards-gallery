@@ -25,6 +25,11 @@
                     :selected="currentview == img"
                     :side="currentview == img ? side : 'front'"
                     :rotate="currentview == img ? rotate : false"
+                    :style="
+                        currentview != 0 && currentview != img
+                            ? 'filter: brightness(50%);'
+                            : null
+                    "
                     @error="error(img)"
                     @load="load(img)"
                     @view="view"
